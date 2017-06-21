@@ -7,7 +7,6 @@ export class HttpService {
 
   constructor(private _http: Http) { }
     passName(name) {
-      console.log('SERIVCE DATA NAME:', name);
       return this._http.post('/name', name)
       .map( data => data.json() )
       .toPromise();

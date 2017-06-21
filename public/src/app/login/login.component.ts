@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'angular2-cookie/core';
 import { HttpService } from './../http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,18 +11,24 @@ import { HttpService } from './../http.service';
 export class LoginComponent implements OnInit {
   first_name = '';
   err = '';
-  constructor(private _http: HttpService) { }
+  constructor(
+    private _http: HttpService,
+    private _cookieService: CookieService,
+    private _router: Router,
+  ) {}
+
   onSubmit(name, form){
     this._http.passName({name: name})
     .then( obj => {
-      console.log('server passed back', obj);
-      if (obj.err){
-        this.err = obj.err;
+      if (obj) {
+        this._cookieService.put('thisIsASecret', obj.name);
+        this._router.navigate(['dashboard']);
       }
     })
     .catch ( err => {console.log(err);})
     form.resetForm();
   }
+
   ngOnInit() {
   }
 

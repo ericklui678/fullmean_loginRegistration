@@ -11,7 +11,7 @@ module.exports = {
   create: function (req, res) {
     User.find(req.body, function (err, data){
       if(err) { console.log(err) }
-      if(data.length) { res.json({err: 'User already exists'}); }
+      if(data.length) { res.json(data[0]); }
       else {
         User.create(req.body, function (err, data){
           if(err) { console.log(err); }
