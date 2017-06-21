@@ -1,0 +1,14 @@
+<h2>Login</h2>
+<form #regForm='ngForm' (submit)='onSubmit(first_name, regForm)'>
+  <input type="text" name="name" placeholder="First name"
+  [(ngModel)] = 'first_name'
+  #name = 'ngModel'
+  required
+  minlength='2'>
+  <input [disabled]='!regForm.valid' type="submit">
+</form>
+<div *ngIf='name.errors && (name.touched || regForm.submitted )' class='red'>
+  <div *ngIf='name.errors.required'>Name is required</div>
+  <div *ngIf='name.errors.minlength'>Name must be at least 2 characters</div>
+</div>
+<div class='red'>{{ err }}</div>
