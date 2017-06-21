@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  name = this._cookieService.get('thisIsASecret');
+  name = this._cookieService.get('username');
   constructor(
     private _cookieService: CookieService,
     private _router: Router,
   ) { }
 
   logout(){
-    this._cookieService.remove('thisIsASecret');
+    this._cookieService.remove('username');
     this._router.navigate(['']);
   }
 

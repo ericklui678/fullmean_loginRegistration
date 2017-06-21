@@ -21,8 +21,10 @@ export class LoginComponent implements OnInit {
     this._http.passName({name: name})
     .then( obj => {
       if (obj) {
-        this._cookieService.put('thisIsASecret', obj.name);
+        this._cookieService.put('username', obj.name);
+        console.log('hello world')
         this._router.navigate(['dashboard']);
+        console.log('after redirect');
       }
     })
     .catch ( err => {console.log(err);})

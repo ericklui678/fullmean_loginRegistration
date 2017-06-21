@@ -221,10 +221,10 @@ var DashboardComponent = (function () {
     function DashboardComponent(_cookieService, _router) {
         this._cookieService = _cookieService;
         this._router = _router;
-        this.name = this._cookieService.get('thisIsASecret');
+        this.name = this._cookieService.get('username');
     }
     DashboardComponent.prototype.logout = function () {
-        this._cookieService.remove('thisIsASecret');
+        this._cookieService.remove('username');
         this._router.navigate(['']);
     };
     DashboardComponent.prototype.ngOnInit = function () { };
@@ -248,10 +248,12 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__("../../../../rxjs/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular2_cookie_core__ = __webpack_require__("../../../../angular2-cookie/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular2_cookie_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular2_cookie_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HttpService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -265,9 +267,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var HttpService = (function () {
-    function HttpService(_http) {
+    function HttpService(_http, _cookieService) {
         this._http = _http;
+        this._cookieService = _cookieService;
     }
     HttpService.prototype.passName = function (name) {
         return this._http.post('/name', name)
@@ -277,11 +281,11 @@ var HttpService = (function () {
     return HttpService;
 }());
 HttpService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0_angular2_cookie_core__["CookieService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0_angular2_cookie_core__["CookieService"]) === "function" && _b || Object])
 ], HttpService);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=http.service.js.map
 
 /***/ }),
@@ -347,8 +351,10 @@ var LoginComponent = (function () {
         this._http.passName({ name: name })
             .then(function (obj) {
             if (obj) {
-                _this._cookieService.put('thisIsASecret', obj.name);
+                _this._cookieService.put('username', obj.name);
+                console.log('hello world');
                 _this._router.navigate(['dashboard']);
+                console.log('after redirect');
             }
         })
             .catch(function (err) { console.log(err); });
