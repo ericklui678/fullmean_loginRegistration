@@ -5,7 +5,6 @@ var express = require('express'),
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// make sure static directory links correctly
 app.use(express.static(__dirname + '/public/dist'));
 
 require('./server/config/mongoose.js');

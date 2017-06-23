@@ -36,6 +36,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__login_login_component__["a" /* LoginComponent */] },
     { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_3__dashboard_dashboard_component__["a" /* DashboardComponent */] },
+    { path: '**', redirectTo: '' },
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
@@ -74,7 +75,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<head>\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/x.x.x/ng2-bootstrap.min.js\"></script>\n   <link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" rel=\"stylesheet\">\n</head>\n<div class=\"wrapper\">\n  <h1>APP-COMPONENT</h1>\n  <router-outlet></router-outlet>\n</div>\n"
+module.exports = "<head>\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/x.x.x/ng2-bootstrap.min.js\"></script>\n   <link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" rel=\"stylesheet\">\n</head>\n<div class=\"wrapper\">\n  <router-outlet></router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -192,7 +193,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Hello {{ name }}</h2>\n<button (click)='logout()'>Logout</button>"
+module.exports = "<h2>Hello {{ name }} {{ userid }}</h2>\n<button (click)='logout()'>Logout</button>"
 
 /***/ }),
 
@@ -222,12 +223,16 @@ var DashboardComponent = (function () {
         this._cookieService = _cookieService;
         this._router = _router;
         this.name = this._cookieService.get('username');
+        this.userid = this._cookieService.get('userid');
+        if (!this._cookieService.get('userid')) {
+            this._router.navigate(['']);
+        }
     }
     DashboardComponent.prototype.logout = function () {
+        this._cookieService.remove('userid');
         this._cookieService.remove('username');
         this._router.navigate(['']);
     };
-    DashboardComponent.prototype.ngOnInit = function () { };
     return DashboardComponent;
 }());
 DashboardComponent = __decorate([
@@ -345,22 +350,22 @@ var LoginComponent = (function () {
         this._router = _router;
         this.first_name = '';
         this.err = '';
+        if (this._cookieService.get('userid')) {
+            this._router.navigate(['dashboard']);
+        }
     }
     LoginComponent.prototype.onSubmit = function (name, form) {
         var _this = this;
         this._http.passName({ name: name })
             .then(function (obj) {
             if (obj) {
+                _this._cookieService.put('userid', obj._id);
                 _this._cookieService.put('username', obj.name);
-                console.log('hello world');
                 _this._router.navigate(['dashboard']);
-                console.log('after redirect');
             }
         })
             .catch(function (err) { console.log(err); });
         form.resetForm();
-    };
-    LoginComponent.prototype.ngOnInit = function () {
     };
     return LoginComponent;
 }());

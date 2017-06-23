@@ -8,30 +8,29 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent{
   first_name = '';
   err = '';
   constructor(
     private _http: HttpService,
     private _cookieService: CookieService,
     private _router: Router,
-  ) {}
+  ) {
+    if (this._cookieService.get('userid')){
+      this._router.navigate(['dashboard']);
+    }
+  }
 
   onSubmit(name, form){
     this._http.passName({name: name})
     .then( obj => {
       if (obj) {
+        this._cookieService.put('userid', obj._id);
         this._cookieService.put('username', obj.name);
-        console.log('hello world')
         this._router.navigate(['dashboard']);
-        console.log('after redirect');
       }
     })
     .catch ( err => {console.log(err);})
     form.resetForm();
   }
-
-  ngOnInit() {
-  }
-
 }

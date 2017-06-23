@@ -1,12 +1,11 @@
-var users = require('../controllers/users.js')
+var users = require('../controllers/users.js');
+var path = require('path');
+
 module.exports = function(app) {
-  app.get('/', function(req, res, next){
-    res.send('hello world')
-  })
-  app.post('/name', function(req, res, next){
+  app.post('/name', function(req, res){
     users.create(req, res)
   })
-  // app.post('/new', function(req, res, next) {
-  //   notes.create(req, res)
-  // })
+  app.get('*', function(req, res){
+    res.sendFile(path.resolve('public/dist/index.html'));
+  })
 }

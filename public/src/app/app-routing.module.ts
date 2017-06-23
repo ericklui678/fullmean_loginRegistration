@@ -8,10 +8,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'dashboard', component: DashboardComponent },
-  // { path: '', pathMatch: 'full', component: LandingComponent },
-  // { path: 'home', component: HomeComponent },
+    { path: '**', redirectTo: ''},
   // { path: 'notes/private', component: NotesPrivateComponent },
-  // { path: 'gohome', redirectTo: '/home' }
 ];
 
 @NgModule({
